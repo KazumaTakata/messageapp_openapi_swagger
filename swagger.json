@@ -20,7 +20,7 @@
   "paths" : {
     "/api/login" : {
       "post" : {
-        "tags" : [ "logine" ],
+        "tags" : [ "login" ],
         "summary" : "login or signup to app",
         "consumes" : [ "application/json" ],
         "produces" : [ "application/json" ],
