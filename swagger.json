@@ -1,3 +1,193 @@
 {
-  "swagger" : "2.0"
+  "swagger" : "2.0",
+  "info" : {
+    "version" : "1.0.0",
+    "title" : "Message App",
+    "description" : "description",
+    "termsOfService" : "terms",
+    "contact" : {
+      "name" : "Kazuma Takata"
+    },
+    "license" : {
+      "name" : "MIT",
+      "url" : "http://opensource.org/licenses/MIT"
+    }
+  },
+  "tags" : [ {
+    "name" : "login",
+    "description" : "login or signup"
+  }, {
+    "name" : "friend",
+    "description" : "friend list"
+  }, {
+    "name" : "user",
+    "description" : ""
+  } ],
+  "paths" : {
+    "/api/login" : {
+      "post" : {
+        "tags" : [ "login" ],
+        "summary" : "login or signup to app",
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "name and password param",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Login"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successful login",
+            "schema" : {
+              "$ref" : "#/definitions/Login"
+            }
+          },
+          "400" : {
+            "description" : "name is invalid or password is not correct"
+          }
+        }
+      }
+    },
+    "/api/friend" : {
+      "get" : {
+        "tags" : [ "friend" ],
+        "summary" : "get friend list",
+        "parameters" : [ {
+          "name" : "x-access-token",
+          "description" : "it contains jwt",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "return array of friend",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/stackoverflow"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/friend/{friendidOrName}" : {
+      "post" : {
+        "tags" : [ "friend" ],
+        "summary" : "add friend by friendid",
+        "parameters" : [ {
+          "name" : "x-access-token",
+          "description" : "it contains jwt",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "friendidOrName",
+          "in" : "path",
+          "description" : "ID of friend that will be added",
+          "required" : true,
+          "type" : "integer",
+          "maximum" : 10.0,
+          "minimum" : 1.0,
+          "format" : "int64"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "added successful"
+          },
+          "400" : {
+            "description" : "friendid is invalid"
+          }
+        }
+      },
+      "get" : {
+        "tags" : [ "friend" ],
+        "summary" : "find friend by friend name",
+        "parameters" : [ {
+          "name" : "x-access-token",
+          "description" : "it contains jwt",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "friendidOrName",
+          "in" : "path",
+          "description" : "ID of friend that will be added",
+          "required" : true,
+          "type" : "integer",
+          "maximum" : 10.0,
+          "minimum" : 1.0,
+          "format" : "int64"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "added successful"
+          },
+          "400" : {
+            "description" : "friendid is invalid"
+          }
+        }
+      }
+    },
+    "/api/user/{myid}/talks" : {
+      "get" : {
+        "tags" : [ "user" ],
+        "summary" : "fetch stored talks",
+        "parameters" : [ {
+          "name" : "x-access-token",
+          "description" : "it contains jwt",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "name" : "myid",
+          "in" : "path",
+          "description" : "my ID",
+          "required" : true,
+          "type" : "string",
+          "maximum" : 10.0,
+          "minimum" : 1.0
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "added successful"
+          },
+          "400" : {
+            "description" : "friendid is invalid"
+          }
+        }
+      }
+    }
+  },
+  "definitions" : {
+    "stackoverflow" : {
+      "type" : "object",
+      "properties" : {
+        "name" : {
+          "type" : "string",
+          "description" : "name of the object"
+        }
+      }
+    },
+    "Login" : {
+      "type" : "object",
+      "properties" : {
+        "name" : {
+          "type" : "string"
+        },
+        "password" : {
+          "type" : "string"
+        }
+      }
+    }
+  },
+  "host" : "virtserver.swaggerhub.com",
+  "basePath" : "/KazumaTakata/messageapp/1.0.0",
+  "schemes" : [ "https", "http" ]
 }
