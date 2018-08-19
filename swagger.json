@@ -67,7 +67,7 @@
             "schema" : {
               "type" : "array",
               "items" : {
-                "$ref" : "#/definitions/stackoverflow"
+                "$ref" : "#/definitions/friend"
               }
             }
           }
@@ -75,7 +75,7 @@
       }
     },
     "/api/friend/add/{friendid}" : {
-      "get" : {
+      "put" : {
         "tags" : [ "friend" ],
         "summary" : "add friend by friendid",
         "parameters" : [ {
@@ -128,9 +128,7 @@
           "200" : {
             "description" : "find friend successfully",
             "schema" : {
-              "items" : {
-                "$ref" : "#/definitions/fetcheduser"
-              }
+              "$ref" : "#/definitions/fetcheduser"
             }
           },
           "400" : {
@@ -152,17 +150,226 @@
         } ],
         "responses" : {
           "200" : {
-            "description" : "added successful"
+            "description" : "added successful",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/postedtalk"
+              }
+            }
           },
           "400" : {
-            "description" : "friendid is invalid"
+            "description" : "failed fetch talk"
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "user" ],
+        "summary" : "post talk",
+        "parameters" : [ {
+          "name" : "x-access-token",
+          "description" : "it contains jwt",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "description" : "name and password param",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/postedtalk"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successfully post talk"
+          },
+          "400" : {
+            "description" : "failed to post data"
+          }
+        }
+      }
+    },
+    "/api/user/profile" : {
+      "get" : {
+        "tags" : [ "user" ],
+        "summary" : "fetch user profile",
+        "parameters" : [ {
+          "name" : "x-access-token",
+          "description" : "it contains jwt",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "successfully get user profile",
+            "schema" : {
+              "$ref" : "#/definitions/myprofile"
+            }
+          },
+          "400" : {
+            "description" : "failed to get user profile"
+          }
+        }
+      }
+    },
+    "/api/user/profile/name" : {
+      "post" : {
+        "tags" : [ "user" ],
+        "summary" : "fetch user profile",
+        "parameters" : [ {
+          "name" : "x-access-token",
+          "description" : "it contains jwt",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "body",
+          "description" : "name and password param",
+          "required" : true,
+          "schema" : {
+            "type" : "object",
+            "properties" : {
+              "name" : {
+                "type" : "string"
+              }
+            }
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "success"
+          },
+          "400" : {
+            "description" : "failed"
+          }
+        }
+      }
+    },
+    "/api/user/profile/photo" : {
+      "post" : {
+        "tags" : [ "user" ],
+        "summary" : "fetch user profile",
+        "consumes" : [ "multipart/form-data" ],
+        "parameters" : [ {
+          "name" : "x-access-token",
+          "description" : "it contains jwt",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "in" : "formData",
+          "name" : "image",
+          "type" : "file",
+          "description" : "profile photo to be uploaded."
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "success"
+          },
+          "400" : {
+            "description" : "failed"
+          }
+        }
+      }
+    },
+    "/api/user/feed" : {
+      "post" : {
+        "tags" : [ "user" ],
+        "summary" : "fetch user profile",
+        "consumes" : [ "multipart/form-data" ],
+        "parameters" : [ {
+          "name" : "x-access-token",
+          "description" : "it contains jwt",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        }, {
+          "in" : "formData",
+          "name" : "image",
+          "type" : "file",
+          "description" : "feed photo to be uploaded."
+        }, {
+          "in" : "formData",
+          "name" : "feedcontent",
+          "type" : "string",
+          "required" : false,
+          "description" : "feed content"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "success"
+          },
+          "400" : {
+            "description" : "failed"
+          }
+        }
+      },
+      "get" : {
+        "tags" : [ "user" ],
+        "summary" : "fetch user feed",
+        "parameters" : [ {
+          "name" : "x-access-token",
+          "description" : "it contains jwt",
+          "in" : "header",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "success",
+            "schema" : {
+              "$ref" : "#/definitions/feed"
+            }
+          },
+          "400" : {
+            "description" : "failed"
           }
         }
       }
     }
   },
   "definitions" : {
-    "stackoverflow" : {
+    "feed" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "string"
+        },
+        "feedcontent" : {
+          "type" : "string"
+        },
+        "photourl" : {
+          "type" : "string"
+        }
+      }
+    },
+    "myprofile" : {
+      "type" : "object",
+      "properties" : {
+        "name" : {
+          "type" : "string"
+        },
+        "photourl" : {
+          "type" : "string"
+        }
+      }
+    },
+    "postedtalk" : {
+      "type" : "object",
+      "properties" : {
+        "content" : {
+          "type" : "string"
+        },
+        "friendid" : {
+          "type" : "string"
+        }
+      }
+    },
+    "friend" : {
       "type" : "object",
       "properties" : {
         "name" : {
