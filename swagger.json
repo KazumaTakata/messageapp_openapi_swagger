@@ -14,9 +14,6 @@
     }
   },
   "tags" : [ {
-    "name" : "login",
-    "description" : "login or signup"
-  }, {
     "name" : "friend",
     "description" : "friend list"
   }, {
@@ -24,9 +21,9 @@
     "description" : ""
   } ],
   "paths" : {
-    "/api/login" : {
+    "/api/user/login" : {
       "post" : {
-        "tags" : [ "login" ],
+        "tags" : [ "user" ],
         "summary" : "login or signup to app",
         "consumes" : [ "application/json" ],
         "produces" : [ "application/json" ],
@@ -77,8 +74,8 @@
         }
       }
     },
-    "/api/friend/{friendidOrName}" : {
-      "post" : {
+    "/api/friend/add/{friendid}" : {
+      "get" : {
         "tags" : [ "friend" ],
         "summary" : "add friend by friendid",
         "parameters" : [ {
@@ -105,7 +102,9 @@
             "description" : "friendid is invalid"
           }
         }
-      },
+      }
+    },
+    "/api/friend/{friendname}" : {
       "get" : {
         "tags" : [ "friend" ],
         "summary" : "find friend by friend name",
@@ -135,7 +134,7 @@
         }
       }
     },
-    "/api/user/{myid}/talks" : {
+    "/api/user/talks" : {
       "get" : {
         "tags" : [ "user" ],
         "summary" : "fetch stored talks",
@@ -145,14 +144,6 @@
           "in" : "header",
           "required" : false,
           "type" : "string"
-        }, {
-          "name" : "myid",
-          "in" : "path",
-          "description" : "my ID",
-          "required" : true,
-          "type" : "string",
-          "maximum" : 10.0,
-          "minimum" : 1.0
         } ],
         "responses" : {
           "200" : {
@@ -172,6 +163,18 @@
         "name" : {
           "type" : "string",
           "description" : "name of the object"
+        },
+        "photourl" : {
+          "type" : "string",
+          "description" : "url to profile photo"
+        },
+        "id" : {
+          "type" : "string",
+          "description" : "id of user"
+        },
+        "backgroundurl" : {
+          "type" : "string",
+          "description" : "url to background photo"
         }
       }
     },
