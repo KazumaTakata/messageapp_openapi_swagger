@@ -85,7 +85,7 @@
           "required" : false,
           "type" : "string"
         }, {
-          "name" : "friendidOrName",
+          "name" : "friendid",
           "in" : "path",
           "description" : "ID of friend that will be added",
           "required" : true,
@@ -115,7 +115,7 @@
           "required" : false,
           "type" : "string"
         }, {
-          "name" : "friendidOrName",
+          "name" : "friendname",
           "in" : "path",
           "description" : "ID of friend that will be added",
           "required" : true,
@@ -126,7 +126,13 @@
         } ],
         "responses" : {
           "200" : {
-            "description" : "added successful"
+            "description" : "find friend successfully",
+            "schema" : {
+              "type" : "object",
+              "items" : {
+                "$ref" : "#/definitions/fetcheduser"
+              }
+            }
           },
           "400" : {
             "description" : "friendid is invalid"
@@ -175,6 +181,23 @@
         "backgroundurl" : {
           "type" : "string",
           "description" : "url to background photo"
+        }
+      }
+    },
+    "fetcheduser" : {
+      "type" : "object",
+      "properties" : {
+        "name" : {
+          "type" : "string",
+          "description" : "name of user"
+        },
+        "photourl" : {
+          "type" : "string",
+          "description" : "photourl of friend"
+        },
+        "id" : {
+          "type" : "string",
+          "description" : "user id"
         }
       }
     },
