@@ -128,7 +128,6 @@
           "200" : {
             "description" : "find friend successfully",
             "schema" : {
-              "type" : "object",
               "items" : {
                 "$ref" : "#/definitions/fetcheduser"
               }
